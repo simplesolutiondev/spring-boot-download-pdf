@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        h1 {
+            color: #25a7e7;
+            text-align: center;
+        }
+        .receipt-header {
+            width: 100%;
+        }
+        .receipt {
+            width: 100%;
+        }
+        .receipt, .receipt th, .receipt td {
+            border: 1px solid #25a7e7;
+            border-collapse: collapse;
+        }
+        .receipt th {
+            background-color: #25a7e7;
+            color: white;
+        }
+        .total {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<h1>Receipt</h1>
+<div>
+    <table class="receipt-header">
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <th>Bill To:</th>
+                    </tr>
+                    <tr>
+                        <td th:text="'Company Name: ' + ${customer.companyName}"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="'Address: ' + ${customer.address}"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="'Email: ' + ${customer.email}"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="'Phone: ' + ${customer.phone}"></td>
+                    </tr>
+                </table>
+            </td>
+            <td align="right">
+                <img width="140" src="https://simplesolution.dev/images/Logo_S_v1.png" />
+                <br />
+                Simple Solution
+            </td>
+        </tr>
+    </table>
+</div>
+
+<br />
+<table class="receipt">
+    <tr>
+        <th>Item #</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+    </tr>
+    <tr th:each="item, iterStat: ${receiptItems}">
+        <td th:text="${iterStat.index + 1}"></td>
+        <td th:text="${item.description}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.unitPrice}"></td>
+        <td th:text="${item.total}"></td>
+    </tr>
+    <tr>
+        <td class="total" colspan="4"><b>Total</b></td>
+        <td><b th:text="${#aggregates.sum(receiptItems.![total])}"></b></td>
+    </tr>
+</table>
+</body>
+</html>
